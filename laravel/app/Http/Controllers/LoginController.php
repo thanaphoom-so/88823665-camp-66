@@ -16,7 +16,7 @@ class LoginController extends Controller
 
     function login(Request $req){
         $user = User::where('email',$req->email)->first();
-        if (Hash::check($req->password, $user->password)){
+        if ($user != null && Hash::check($req->password, $user->password)){
             session()->forget('error');
             session(['user'=> $user]);
             return redirect('/');

@@ -16,7 +16,7 @@ class CheckLogin
     public function handle(Request $request, Closure $next): Response
     {
         $user = session()->get('user');
-        print_r($user);
+        //print_r($user);
         if(!isset($user)){
             return redirect('/login');
         }

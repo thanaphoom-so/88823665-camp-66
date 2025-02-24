@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProductList extends Model
+class Category extends Model
 {
     //
-    protected $table = "product_list";
+    protected $table = "categories";
     public $timestamps = false;
 
-    public function category() {
-        return $this->belongsTo(Category::class, 'category_id',);
+    public function products() {
+        return $this->hasMany(ProductList::class, 'category_id', 'id');
     }
 
     public function user() {

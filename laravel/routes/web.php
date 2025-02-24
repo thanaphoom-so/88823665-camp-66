@@ -9,19 +9,28 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckLogin;
 use App\Http\Controllers\ProductController;
 
-Route::get('/product',
-    [ProductController::class,'index'])
-    ->middleware([CheckLogin::class]);
+Route::middleware([CheckLogin::class])->group(function(){
+    Route::get('/users',[UserController::class,'index']);
+    Route::get('/user/{id}',[UserController::class,'edit']);
+    Route::put('/user',[UserController::class,'edit_action']);
+    Route::delete('/user',[UserController::class,'delete']);
+    Route::get('/product', [ProductController::class,'index']);
+    Route::post('/product',[ProductController::class,'store']);
+    Route::delete('/product/{id}', [ProductController::class, 'delete']);
+    });
 
-Route::post('/product',
-    [ProductController::class,'store'])
-    ->middleware([CheckLogin::class]);
 
 Route::get('/login',
     [LoginController::class,'index']);
 
 Route::post('/login',
     [LoginController::class,'login']);
+
+Route::get('/logout', function(){
+    session()->forget('user');
+    session()->flush();
+    return redirect('/login');
+    });
 
 Route::get('/register',
     [RegisterController::class,'index']);
@@ -35,18 +44,6 @@ Route::get('/home',
 Route::get('/',
     [HomeController::class,'index'])
     ->middleware([CheckLogin::class]);
-
-Route::get('/users',
-    [UserController::class,'index']);
-
-Route::get('/user/{id}',
-    [UserController::class,'edit']);
-
-Route::put('/user',
-    [UserController::class,'edit_action']);
-
-Route::delete('/user',
-    [UserController::class,'delete']);
 
 Route::get('/hello', function () {
     return "<h1>Hello World!</h1>";
