@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckLogin;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\todoListController;
 
 Route::middleware([CheckLogin::class])->group(function(){
     Route::get('/users',[UserController::class,'index']);
@@ -45,9 +46,9 @@ Route::get('/',
     [HomeController::class,'index'])
     ->middleware([CheckLogin::class]);
 
-Route::get('/hello', function () {
-    return "<h1>Hello World!</h1>";
-});
+Route::get('/final-camp', [todoListController::class,'index']);
+
+Route::post('/final-camp', [todoListController::class,'store']);
 
 Route::get('/mycontroller/{id?}', 
     [MyController::class,'myfunction']);
